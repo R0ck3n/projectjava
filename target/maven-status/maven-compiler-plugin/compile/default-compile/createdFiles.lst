@@ -1,3 +1,5 @@
-com\example\Main$StaticFileHandler.class
-com\example\Main.class
-com\example\Main$HelloHandler.class
+Main.class
+StaticFileHandler.class
+HelloHandler.class
+Router.class
+NotFoundHandler.class

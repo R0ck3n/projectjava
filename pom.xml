@@ -14,15 +14,16 @@
     </properties>
 
     <build>
-        <plugins>
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>3.4.1</version>
-                <configuration>
-                    <mainClass>com.example.Main</mainClass>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+    <plugins>
+        <plugin>
+            <groupId>org.codehaus.mojo</groupId>
+            <artifactId>exec-maven-plugin</artifactId>
+            <version>3.4.1</version>
+            <configuration>
+                <mainClass>Main</mainClass>
+            </configuration>
+        </plugin>
+    </plugins>
+</build>
+
 </project>
