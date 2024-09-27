@@ -1,8 +1,8 @@
+import java.util.List;
+import java.util.ArrayList;
+import java.io.IOException;
 import com.sun.net.httpserver.HttpServer;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Router {
 
@@ -15,18 +15,6 @@ public class Router {
         routes.add("/hello");   // Route /hello
 
         // Associer les routes aux gestionnaires
-        server.createContext("/", new StaticFileHandler());
-        server.createContext("/hello", new HelloHandler());
-
-        // Gestionnaire catch-all pour les routes non trouvées (404)
-        configure404(server);
-    }
-
-    public static void configure404(HttpServer server) {
-        // Route pour servir la page 404
-        server.createContext("/404", new NotFoundHandler());
-
-        // Gestionnaire pour toute autre requête non définie
         server.createContext("/", exchange -> {
             String path = exchange.getRequestURI().getPath();
 
@@ -36,9 +24,19 @@ public class Router {
                 exchange.getResponseHeaders().set("Location", "/404");
                 exchange.sendResponseHeaders(302, -1); // Redirection temporaire (HTTP 302)
             } else {
-                // Si la route existe, rien ne change
-                exchange.sendResponseHeaders(404, -1);
+                // Si la route existe, traiter comme d'habitude
+                new StaticFileHandler().handle(exchange);
             }
         });
+
+        server.createContext("/hello", new HelloHandler());
+
+        // Gestionnaire catch-all pour les routes non trouvées (404)
+        configure404(server);
+    }
+
+    public static void configure404(HttpServer server) {
+        // Route pour servir la page 404
+        server.createContext("/404", new NotFoundHandler());
     }
 }
