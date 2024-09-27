@@ -4,6 +4,7 @@ import com.sun.net.httpserver.HttpExchange;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URLConnection;
 
 public class StaticFileHandler implements HttpHandler {
     @Override
@@ -13,15 +14,26 @@ public class StaticFileHandler implements HttpHandler {
             filePath = "/index.html"; // Page d'accueil par défaut
         }
 
+        // Charger le fichier depuis le dossier "static" dans les ressources
         InputStream fileStream = getClass().getResourceAsStream("/static" + filePath);
 
         if (fileStream != null) {
+            // Deviner le type MIME en fonction du fichier
+            String contentType = URLConnection.guessContentTypeFromName(filePath);
+            if (contentType == null) {
+                contentType = "application/octet-stream";  // Type par défaut
+            }
+
+            // Lire le fichier et envoyer la réponse
             byte[] fileContent = fileStream.readAllBytes();
+            exchange.getResponseHeaders().set("Content-Type", contentType);
             exchange.sendResponseHeaders(200, fileContent.length);
+
             OutputStream os = exchange.getResponseBody();
             os.write(fileContent);
             os.close();
         } else {
+            // Réponse 404 si le fichier n'est pas trouvé
             String response = "404 (Not Found)\n";
             exchange.sendResponseHeaders(404, response.length());
             OutputStream os = exchange.getResponseBody();

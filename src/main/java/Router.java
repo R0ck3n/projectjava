@@ -3,7 +3,6 @@ import java.util.ArrayList;
 import java.io.IOException;
 import com.sun.net.httpserver.HttpServer;
 
-
 public class Router {
 
     // Liste pour stocker toutes les routes définies
@@ -18,6 +17,12 @@ public class Router {
         server.createContext("/", exchange -> {
             String path = exchange.getRequestURI().getPath();
 
+            // Si la route demandée est une route statique (css, js, etc.)
+            if (path.startsWith("/css") || path.startsWith("/js")) {
+                new StaticFileHandler().handle(exchange);
+                return;
+            }
+
             // Si la route demandée n'est pas dans la liste des routes définies
             if (!routes.contains(path)) {
                 // Redirige vers la page 404
@@ -29,6 +34,7 @@ public class Router {
             }
         });
 
+        // Route pour /hello
         server.createContext("/hello", new HelloHandler());
 
         // Gestionnaire catch-all pour les routes non trouvées (404)
