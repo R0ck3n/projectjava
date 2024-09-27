@@ -10,15 +10,24 @@ public class Router {
 
     public static void configure(HttpServer server) throws IOException {
         // Définir les routes
-        routes.add("/");       // Page d'accueil
-        routes.add("/hello");   // Route /hello
 
+        // pour les requetes
+        routes.add("/hello");       // Page d'accueil (home)
+
+        // pages affichés
+        routes.add("/");       // Page d'accueil (home)
+        routes.add("/home");   // Route pour la page d'accueil
+        routes.add("/page2");  // Route pour la page 2
+        
+        // Route pour /hello
+        server.createContext("/hello", new HelloHandler());
+        
         // Associer les routes aux gestionnaires
         server.createContext("/", exchange -> {
             String path = exchange.getRequestURI().getPath();
 
-            // Si la route demandée est une route statique (css, js, etc.)
-            if (path.startsWith("/css") || path.startsWith("/js")) {
+            // Gestion des fichiers statiques (globaux ou spécifiques aux pages)
+            if (path.startsWith("/css") || path.startsWith("/js") || path.startsWith("/pages")) {
                 new StaticFileHandler().handle(exchange);
                 return;
             }
@@ -29,13 +38,22 @@ public class Router {
                 exchange.getResponseHeaders().set("Location", "/404");
                 exchange.sendResponseHeaders(302, -1); // Redirection temporaire (HTTP 302)
             } else {
-                // Si la route existe, traiter comme d'habitude
+                // Si la route existe, traiter la page
                 new StaticFileHandler().handle(exchange);
             }
         });
 
-        // Route pour /hello
-        server.createContext("/hello", new HelloHandler());
+        // Route pour /home
+        server.createContext("/home", exchange -> {
+            exchange.getResponseHeaders().set("Location", "/pages/home/index.html");
+            exchange.sendResponseHeaders(302, -1);
+        });
+
+        // Route pour /page2
+        server.createContext("/page2", exchange -> {
+            exchange.getResponseHeaders().set("Location", "/pages/page2/index.html");
+            exchange.sendResponseHeaders(302, -1);
+        });
 
         // Gestionnaire catch-all pour les routes non trouvées (404)
         configure404(server);

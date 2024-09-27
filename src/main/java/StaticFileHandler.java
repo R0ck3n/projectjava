@@ -10,8 +10,10 @@ public class StaticFileHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         String filePath = exchange.getRequestURI().getPath();
+
+        // Si l'utilisateur demande la racine "/", charger index.html par défaut
         if (filePath.equals("/")) {
-            filePath = "/index.html"; // Page d'accueil par défaut
+            filePath = "/pages/home/index.html";
         }
 
         // Charger le fichier depuis le dossier "static" dans les ressources
