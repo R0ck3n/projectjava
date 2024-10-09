@@ -27,7 +27,7 @@ public class Router {
             String path = exchange.getRequestURI().getPath();
 
             // Gestion des fichiers statiques (globaux ou spécifiques aux pages)
-            if (path.startsWith("/css") || path.startsWith("/js") || path.startsWith("/pages")) {
+            if (path.startsWith("/css") || path.startsWith("/js") || path.startsWith("/views")) {
                 new StaticFileHandler().handle(exchange);
                 return;
             }
@@ -45,13 +45,13 @@ public class Router {
 
         // Route pour /home
         server.createContext("/home", exchange -> {
-            exchange.getResponseHeaders().set("Location", "/pages/home/index.html");
+            exchange.getResponseHeaders().set("Location", "/views/home/index.html");
             exchange.sendResponseHeaders(302, -1);
         });
 
         // Route pour /page2
         server.createContext("/page2", exchange -> {
-            exchange.getResponseHeaders().set("Location", "/pages/page2/index.html");
+            exchange.getResponseHeaders().set("Location", "/views/page2/index.html");
             exchange.sendResponseHeaders(302, -1);
         });
 

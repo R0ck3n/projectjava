@@ -1,12 +1,3 @@
-function fetchMessage() {
-    fetch("/hello")
-        .then((response) => response.text())
-        .then((message) => {
-            document.getElementById("message").textContent = message;
-        });
-}
+console.log("home page");
 
-const btn = document.querySelector("#elButton");
-btn.addEventListener("click", () => {
-    fetchMessage();
-});
+

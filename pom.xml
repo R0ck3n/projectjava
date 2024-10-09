@@ -20,7 +20,9 @@
                 <directory>src/main/resources</directory>
                 <includes>
                     <include>**/*.css</include>
+                    <include>**/*/*.css</include>
                     <include>**/*.js</include>
+                    <include>**/*/*.js</include>
                     <include>**/*.html</include>
                     <include>**/*</include> <!-- Pour inclure tous les fichiers -->
                 </includes>

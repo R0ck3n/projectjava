@@ -1,3 +1,5 @@
+console.log("page2");
+
 function fetchMessage() {
     fetch("/hello")
         .then((response) => response.text())

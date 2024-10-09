@@ -13,7 +13,7 @@ public class StaticFileHandler implements HttpHandler {
 
         // Si l'utilisateur demande la racine "/", charger index.html par défaut
         if (filePath.equals("/")) {
-            filePath = "/pages/home/index.html";
+            filePath = "/views/home/index.html";
         }
 
         // Charger le fichier depuis le dossier "static" dans les ressources
