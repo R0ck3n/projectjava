@@ -1,5 +1,9 @@
+UserHandler.class
 Main.class
 StaticFileHandler.class
+DatabaseConnection.class
 HelloHandler.class
 Router.class
+User.class
+UserDAO.class
 NotFoundHandler.class

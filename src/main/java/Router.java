@@ -12,16 +12,18 @@ public class Router {
         // Définir les routes
 
         // pour les requetes
-        routes.add("/hello");       // Page d'accueil (home)
+        routes.add("/hello");       
+        routes.add("/users");       
 
         // pages affichés
         routes.add("/");       // Page d'accueil (home)
         routes.add("/home");   // Route pour la page d'accueil
         routes.add("/page2");  // Route pour la page 2
         
-        // Route pour /hello
+        // Route pour les datas
         server.createContext("/hello", new HelloHandler());
-        
+        server.createContext("/user", new UserHandler());
+
         // Associer les routes aux gestionnaires
         server.createContext("/", exchange -> {
             String path = exchange.getRequestURI().getPath();
